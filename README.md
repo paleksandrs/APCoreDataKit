@@ -2,7 +2,7 @@
  [![license MIT](https://img.shields.io/cocoapods/l/JSQCoreDataKit.svg)][mitLink]
 
 
-A lightweight library that reduces the boilerplate involved with Core Data setup and work.
+A lightweight helper library that reduces the boilerplate involved with Core Data setup and work.
 
 ## Requirements
 * Xcode 8

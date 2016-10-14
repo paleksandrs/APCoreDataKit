@@ -2,7 +2,7 @@
 Pod::Spec.new do |s|
   s.name         = "APCoreDataKit"
   s.version      = "1.0.0"
-  s.summary      = "A lightweight helper library that reduces the boilerplate involved with Core Data setup and work."
+  s.summary      = "A lightweight library that reduces the boilerplate involved with Core Data setup and work."
   s.description  = <<-DESC
   A lightweight helper library that reduces the boilerplate involved with Core Data setup and work.
                    DESC
