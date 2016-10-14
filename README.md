@@ -11,7 +11,7 @@ A lightweight helper library that reduces the boilerplate involved with Core Dat
 
 ## Installation
 
-#### [CocoaPods](http://cocoapods.org)
+##### [CocoaPods](http://cocoapods.org). Please use the latest CocoaPods as this framework is using Swift 3  
 
 ````ruby
 use_frameworks!
