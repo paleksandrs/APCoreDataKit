@@ -32,7 +32,7 @@ class NSManagedObjectContextHelperTests: XCTestCase {
         
         let personsArray = fetchAllPersons(inMOC: moc)
         
-        _ = moc.insert(Person.self)
+        _ = moc.createAndInsert(entity: Person.self)
         
         let personsArrayAfter = fetchAllPersons(inMOC: moc)
         
@@ -42,7 +42,7 @@ class NSManagedObjectContextHelperTests: XCTestCase {
     func testDeletingObjectFromContextDecrementsObjectCount() {
         
         let moc = createContextWithPersistentStoreType(PersistentStoreType.InMemory)
-        let person = moc.insert(Person.self)
+        let person = moc.createAndInsert(entity: Person.self)
         let personsArray = fetchAllPersons(inMOC: moc)
         
         moc.delete(objects: [person])
@@ -54,8 +54,8 @@ class NSManagedObjectContextHelperTests: XCTestCase {
     
     func testDeletingAllObjectFromContextSetsObjectCountToZero() {
     
-        _ = sqlMoc.insert(Person.self)
-        _ = sqlMoc.insert(Person.self)
+        _ = sqlMoc.createAndInsert(entity: Person.self)
+        _ = sqlMoc.createAndInsert(entity: Person.self)
     
         do {
             try sqlMoc.delete(entity: Person.self)
@@ -74,11 +74,12 @@ class NSManagedObjectContextHelperTests: XCTestCase {
         
         let personsArray = fetchAllPersons(inMOC: sqlMoc)
         
-        _ = sqlMoc.insert(Person.self)
+        _ = sqlMoc.createAndInsert(entity: Person.self)
         
         sqlMoc.saveContext()
         
         let moc2 = createContextWithPersistentStoreType(PersistentStoreType.SQLite("TestModel"))
+        
         let personsArrayInMOC2 = fetchAllPersons(inMOC: moc2)
         
         XCTAssertEqual(personsArray.count+1, personsArrayInMOC2.count)
