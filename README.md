@@ -47,7 +47,8 @@ let entity = moc.createAndInsert(entity: Entity.self)
 ##### Deleting `NSManagedObject`
 
 ````swift
-moc.delete(objects: [EntityInstance1,EntityInstance2, ...])
+let objects: [Entity] = ...
+moc.delete(objects: objects)
 ````
 
 ##### Deleting all entities using batch request 
