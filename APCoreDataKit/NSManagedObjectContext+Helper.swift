@@ -10,8 +10,8 @@ import CoreData
 
 public extension NSManagedObjectContext {
     
-    public func insert<T : NSManagedObject>(_ entity: T.Type) -> T {
-        let entityName = entity.entityName
+    public func createAndInsert<T : NSManagedObject>(entity: T.Type) -> T {
+        let entityName = String(describing: entity)
         return NSEntityDescription.insertNewObject(forEntityName: entityName, into:self) as! T
     }
     
@@ -68,7 +68,7 @@ public extension NSManagedObjectContext {
     
     public func delete<T : NSManagedObject>(entity: T.Type) throws {
         
-        let fetchRequest: NSFetchRequest<NSFetchRequestResult> = NSFetchRequest(entityName: entity.entityName)
+        let fetchRequest: NSFetchRequest<NSFetchRequestResult> = NSFetchRequest(entityName: String(describing: entity))
         let deleteRequest = NSBatchDeleteRequest(fetchRequest: fetchRequest)
         
         do {

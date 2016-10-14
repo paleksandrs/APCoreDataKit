@@ -41,7 +41,7 @@ let moc = NSManagedObjectContext(model: model, storeType: persistentStoreType)
 ##### Creating and inserting `NSManagedObject`
 
 ````swift
-let entity = moc.insert(Entity.self)
+let entity = moc.createAndInsert(entity: Entity.self)
 ````
 
 ##### Deleting `NSManagedObject`

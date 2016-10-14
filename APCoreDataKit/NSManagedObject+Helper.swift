@@ -11,12 +11,8 @@ import CoreData
 
 public extension NSManagedObject {
 
-    public class var entityName : String {
-        let components = NSStringFromClass(self).components(separatedBy: ".")
-        return components[1]
-    }
     
     public class func entityFetchRequest() -> NSFetchRequest<NSFetchRequestResult> {
-        return NSFetchRequest(entityName:self.entityName)
+        return NSFetchRequest(entityName: String(describing: self))
     }
 }
