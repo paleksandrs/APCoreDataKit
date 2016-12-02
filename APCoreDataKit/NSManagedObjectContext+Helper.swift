@@ -71,11 +71,7 @@ public extension NSManagedObjectContext {
         let fetchRequest: NSFetchRequest<NSFetchRequestResult> = NSFetchRequest(entityName: String(describing: entity))
         let deleteRequest = NSBatchDeleteRequest(fetchRequest: fetchRequest)
         
-        do {
-            try self.persistentStoreCoordinator!.execute(deleteRequest, with: self)
-        } catch let error as NSError {
-            throw error
-        }
+        try self.persistentStoreCoordinator!.execute(deleteRequest, with: self)
     }
 }
 
