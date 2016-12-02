@@ -73,5 +73,19 @@ public extension NSManagedObjectContext {
         
         try self.persistentStoreCoordinator!.execute(deleteRequest, with: self)
     }
+    
+    func getObject<T: NSManagedObject>(objectURL: String) -> T? {
+        
+        guard let url = URL(string: objectURL) else {
+            
+            return nil
+        }
+        guard let managedObjectID = persistentStoreCoordinator?.managedObjectID(forURIRepresentation: url) else {
+            
+            return nil
+        }
+        
+        return object(with: managedObjectID) as? T
+    }
 }
 
