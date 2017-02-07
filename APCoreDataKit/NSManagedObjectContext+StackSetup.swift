@@ -29,5 +29,12 @@ public extension NSManagedObjectContext {
         
         return coordinator
     }
+    
+    func child() -> NSManagedObjectContext {
+        
+        let child = NSManagedObjectContext(concurrencyType: .privateQueueConcurrencyType)
+        child.parent = self
+        return child
+    }
 }
 

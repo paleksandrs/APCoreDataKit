@@ -11,8 +11,16 @@ import CoreData
 public extension NSManagedObjectContext {
     
     public func createAndInsert<T : NSManagedObject>(entity: T.Type) -> T {
-        let entityName = String(describing: entity)
-        return NSEntityDescription.insertNewObject(forEntityName: entityName, into:self) as! T
+        
+        var object: T?
+        
+        performAndWait {
+            
+            let entityName = String(describing: entity)
+            object = NSEntityDescription.insertNewObject(forEntityName: entityName, into:self) as? T
+        }
+
+        return object!
     }
     
     public func performFetch<T: NSManagedObject>(request: NSFetchRequest<NSFetchRequestResult>) throws -> [T] {
@@ -59,7 +67,7 @@ public extension NSManagedObjectContext {
         
         guard objects.count != 0 else { return }
         
-        self.performAndWait {
+        performAndWait {
             for each in objects {
                 self.delete(each)
             }
@@ -71,11 +79,26 @@ public extension NSManagedObjectContext {
         let fetchRequest: NSFetchRequest<NSFetchRequestResult> = NSFetchRequest(entityName: String(describing: entity))
         let deleteRequest = NSBatchDeleteRequest(fetchRequest: fetchRequest)
         
-        do {
-            try self.persistentStoreCoordinator!.execute(deleteRequest, with: self)
-        } catch let error as NSError {
-            throw error
+        try self.persistentStoreCoordinator!.execute(deleteRequest, with: self)
+    }
+    
+    func getObject<T: NSManagedObject>(objectURL: String) -> T? {
+        
+        guard let url = URL(string: objectURL) else {
+            
+            return nil
         }
+        guard let managedObjectID = persistentStoreCoordinator?.managedObjectID(forURIRepresentation: url) else {
+            
+            return nil
+        }
+        
+        var obj: T?
+        performAndWait {
+            
+            obj = self.object(with: managedObjectID) as? T
+        }
+        return obj
     }
 }
 
