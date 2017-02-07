@@ -21,4 +21,42 @@ class NSManagedObjectContextStackSetupTests: XCTestCase {
 
         XCTAssertNotNil(moc)
     }
+    
+    func testInsertingObjectIntoChildContextIncrementsObjectCountInParent() {
+        
+        let moc = createContextWithPersistentStoreType(PersistentStoreType.InMemory)
+        let child = moc.child()
+        
+        let personsArray = fetchAllPersons(inMOC: moc)
+        
+        _ = child.createAndInsert(entity: Person.self)
+     
+        child.saveContext()
+        
+        let personsArrayAfter = fetchAllPersons(inMOC: moc)
+        
+        XCTAssertEqual(personsArray.count+1, personsArrayAfter.count)
+    }
+    
+    //MARK : Helpers
+    
+    func createContextWithPersistentStoreType(_ type: PersistentStoreType) -> NSManagedObjectContext {
+        
+        let model = ManagedObjectModel(name: "TestModel", bundle: Bundle(for: type(of: self)))
+        
+        return NSManagedObjectContext(model: model, storeType: type)
+    }
+    
+    func fetchAllPersons(inMOC moc: NSManagedObjectContext) -> [Person] {
+        
+        let fetchRequest = Person.entityFetchRequest()
+        var personArray = [Person]()
+        
+        do {
+            personArray = try moc.performFetch(request: fetchRequest)
+        }catch {
+            XCTAssertTrue(false)
+        }
+        return personArray
+    }
 }
